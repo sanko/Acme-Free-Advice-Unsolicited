@@ -32,12 +32,13 @@ Acme::Free::Advice::Unsolicited - Solicit Unsolicited Advice from the Unsolicite
 
 =head1 SYNOPSIS
 
-    use Acme::Free::Advice::Unsolicited;
+    use Acme::Free::Advice::Unsolicited qw[advice];
     say advice( 224 )->{advice};
 
 =head1 DESCRIPTION
 
-Acme::Free::Advice::Unsolicited provides wisdom from L<AdviceSlip.com|https://adviceslip.com/>
+Acme::Free::Advice::Unsolicited provides wisdom from author and leading tech observer, L<Kevin
+Kelly|https://en.wikipedia.org/wiki/Kevin_Kelly_(editor)>.
 
 =head1 METHODS
 
@@ -47,8 +48,8 @@ These functions may be imported by name or with the C<:all> tag.
 
 Seek wisdom.
 
-    my $slip = advice(); # Random advice
-    my $slip = advice( 20 ); # Advice by ID
+    my $advice = advice( ); # Random advice
+    my $wisdom = advice( 20 ); # Advice by ID
 
 You may request specific advice by ID.
 
@@ -90,7 +91,7 @@ The advice's ID in case you'd like to request it again in the future.
 
 =item C<source>
 
-The source of the wisdom. Typically a URL on Kevin's block.
+The source of the wisdom. Typically a URL on Kevin's blog.
 
 =back
 

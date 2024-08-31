@@ -18,7 +18,7 @@ use open qw[:std :encoding(UTF-8)];
 my $raw = 0;
 my ( $id, $all );
 
-sub _echo ($slip) {    # JSON::Tiny is loaded in Acme::Free::Advice::Slip anyway
+sub _echo ($slip) {    # JSON::Tiny is loaded in Acme::Free::Advice::Unsolicited anyway
     $raw ? JSON::Tiny::encode_json($slip) : $slip->{advice};
 }
 GetOptions( 'json' => \$raw, 'help' => sub { pod2usage( -exitval => 1 ) }, 'id=i' => \$id, 'all!' => \$all );

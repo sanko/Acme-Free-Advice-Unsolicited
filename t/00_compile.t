@@ -11,7 +11,7 @@ subtest 'random advice' => sub {
         field id     => D();
         field source => D();
         end()
-    }, 'advice() returns a random slip';
+    }, 'advice() returns a random bit of advice';
 };
 subtest 'specific advice' => sub {
     is my $slip = advice(224), hash {
@@ -19,7 +19,7 @@ subtest 'specific advice' => sub {
         field id     => number 224;
         field source => string q[https://kk.org/thetechnium/103-bits-of-advice-i-wish-i-had-known/];
         end;
-    }, 'advice(1) returns a known slip';
+    }, 'advice(224) returns a known piece of wisdom';
     is advice(100000), U(), 'advice(100000) returns undef';
 };
 subtest 'gather all advice' => sub {
