@@ -5,20 +5,23 @@ package Acme::Free::Advice::Unsolicited 1.0 {    # https://kk-advice.koyeb.app/a
     use parent 'Exporter';
     our %EXPORT_TAGS = ( all => [ our @EXPORT_OK = qw[advice all] ] );
     #
+    use overload '""' => sub ( $s, $u, $b ) { $s->{advice} // () };
+    #
     sub _http ($uri) {
-        CORE::state $http //= HTTP::Tiny->new( agent => sprintf '%s/%.2f ', __PACKAGE__, our $VERSION );
+        state $http
+            //= HTTP::Tiny->new( default_headers => { Accept => 'application/json' }, agent => sprintf '%s/%.2f ', __PACKAGE__, our $VERSION );
         my $res = $http->get($uri);    # {success} is true even when advice is not found but we'll at least know when we have valid JSON
         $res->{success} ? decode_json( $res->{content} ) : ();
     }
     #
     sub advice ( $advice_id //= () ) {
         my $res = _http( 'https://kk-advice.koyeb.app/api/advice' . ( $advice_id ? '/' . $advice_id : '' ) );
-        defined $res->{error} ? () : $res;
+        defined $res->{error} ? () : bless $res, __PACKAGE__;
     }
 
     sub all () {
         my $res = _http('https://kk-advice.koyeb.app/api/advice/all');
-        @{ $res // [] };
+        map { bless $_, __PACKAGE__ } @{ $res // [] };
     }
 }
 1;
@@ -107,5 +110,10 @@ Unsolicited advice provided by L<Kevin Kelly|https://kk.org/>.
 =head1 AUTHOR
 
 Sanko Robinson E<lt>sanko@cpan.orgE<gt>
+
+=head2 ...but why?
+
+I'm inflicting this upon the world because L<oodler577|https://github.com/oodler577/> invited me to help expand Perl's
+coverage of smaller open APIs. Blame them or L<join us|https://github.com/oodler577/FreePublicPerlAPIs> in the effort.
 
 =cut
