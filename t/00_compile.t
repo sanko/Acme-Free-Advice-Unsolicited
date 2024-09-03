@@ -12,6 +12,7 @@ subtest 'random advice' => sub {
         field source => D();
         end()
     }, 'advice() returns a random bit of advice';
+    isa_ok $slip, ['Acme::Free::Advice::Unsolicited'], 'advice is a blessed hash';
 };
 subtest 'specific advice' => sub {
     is my $slip = advice(224), hash {
@@ -20,10 +21,11 @@ subtest 'specific advice' => sub {
         field source => string q[https://kk.org/thetechnium/103-bits-of-advice-i-wish-i-had-known/];
         end;
     }, 'advice(224) returns a known piece of wisdom';
+    isa_ok $slip, ['Acme::Free::Advice::Unsolicited'], 'slip is a blessed hash';
     is advice(100000), U(), 'advice(100000) returns undef';
 };
 subtest 'gather all advice' => sub {
-    is [ all() ], array {
+    is my $list = [ all() ], array {
         all_items hash {
             field advice => D();
             field id     => D();
@@ -32,6 +34,7 @@ subtest 'gather all advice' => sub {
         };
         etc;
     }, 'all() returns a list of advice';
+    isa_ok $list->[0], ['Acme::Free::Advice::Unsolicited'], 'all() returns a list of blessed hashes';
 };
 #
 done_testing;
